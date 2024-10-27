@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Home Securely</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPsJx9roLHSuBvwBO4saREGWc4LjG06OE&callback=initMap" async defer></script>
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <h1>Go Home Securely</h1>
+    <div>
+        <input id="start" type="text" placeholder="Start location">
+        <input id="end" type="text" placeholder="End location">
+        <select id="mode">
+            <option value="DRIVING">Driving</option>
+            <option value="WALKING">Walking</option>
+            <option value="BICYCLING">Bicycling</option>
+            <option value="TRANSIT">Transit</option>
+        </select>
+        <button id="calculate-route">Calculate Route</button>
+    </div>
+    <div id="map"></div>
+</body>
+</html>

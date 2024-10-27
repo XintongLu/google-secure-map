@@ -1,0 +1,20 @@
+{
+    "name": "google-secure-map",
+    "version": "1.0.0",
+    "description": "A secure map application using Google Maps API",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "express": "^4.21.1",
+        "google-maps": "^4.3.3"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.12"
+    }
+}
