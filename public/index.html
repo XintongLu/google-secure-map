@@ -5,21 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go Home Securely</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPsJx9roLHSuBvwBO4saREGWc4LjG06OE&callback=initMap" async defer></script>
-    <script src="index.js" defer></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPsJx9roLHSuBvwBO4saREGWc4LjG06OE&libraries=marker,libraries=places&loading=async&callback=initMap" async defer></script>
+     -->
+    <script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+          key: "AIzaSyAPsJx9roLHSuBvwBO4saREGWc4LjG06OE",
+          v: "weekly",
+          // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+          // Add other bootstrap parameters as needed, using camel case.
+        });
+      </script>
+    <script src="index.js" async defer></script>
 </head>
 <body>
     <h1>Go Home Securely</h1>
     <div>
-        <input id="start" type="text" placeholder="Start location">
-        <input id="end" type="text" placeholder="End location">
+        <input id="start" type="text" style="display: none;" placeholder="Start location">
+        <input id="search" class="controls" type="text" placeholder="Search Box">
         <select id="mode">
             <option value="DRIVING">Driving</option>
             <option value="WALKING">Walking</option>
             <option value="BICYCLING">Bicycling</option>
             <option value="TRANSIT">Transit</option>
         </select>
-        <button id="calculate-route">Calculate Route</button>
+        <button id="directionsButton" style="display: none;">Directions</button>
     </div>
     <div id="map"></div>
 </body>
