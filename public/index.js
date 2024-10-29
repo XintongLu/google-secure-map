@@ -1,5 +1,8 @@
 let map;
 
+let startPosition = [];
+let endPosition = [];
+
 async function initMap() {
   // Request needed libraries.
   //@ts-ignore
@@ -15,8 +18,8 @@ async function initMap() {
   });
 
   // Create the search box and link it to the UI element.
-  var input = document.getElementById('search');
-  var searchBox = new SearchBox(input);
+  var searchInput = document.getElementById('search');
+  var searchBox = new SearchBox(searchInput);
 
   // Bias the SearchBox results towards current map's viewport.
   map.addListener('bounds_changed', function() {
@@ -26,15 +29,16 @@ async function initMap() {
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
   searchBox.addListener('places_changed', function() {
-    var places = searchBox.getPlaces();
+    var places1 = searchBox.getPlaces();
 
-    if (places.length == 0) {
+    if (places1.length == 0) {
       return;
     }
 
     var bounds = new google.maps.LatLngBounds();
-    places.forEach(function(place) {
-      if (!place.geometry) {
+    places1.forEach(function(endPlace) {
+      
+      if (!endPlace.geometry) {
         console.log("Returned place contains no geometry");
         return;
       }
@@ -48,11 +52,67 @@ async function initMap() {
       // Create a new marker
       const marker = new AdvancedMarkerElement({
         map: map,
+        title: endPlace.name,
+        position: endPlace.geometry.location,
+        title: "Uluru",
+      });
+      // Get the accurate position of the place
+      endPosition=(endPlace.geometry.location.toJSON());
+      console.log("Accurate Position:", endPosition);
+
+      // Store the marker
+      window.markers.push(marker);
+
+      if (endPlace.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(endPlace.geometry.viewport);
+      } else {
+        bounds.extend(endPlace.geometry.location);
+      }
+    });
+
+    map.fitBounds(bounds);
+    
+    //showDirectionsButtons();
+  const button = document.getElementById('directionsButton');
+  const startButton = document.getElementById('start');
+  button.style.display = 'block';
+  startButton.style.display = 'block';
+
+  var startBox = new google.maps.places.SearchBox(startButton);
+
+  map.addListener('bounds_changed', function() {
+    startBox.setBounds(map.getBounds());
+  });
+
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  startBox.addListener('places_changed', function() {
+    var places = startBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+
+    var bounds = new google.maps.LatLngBounds();
+    places.forEach(function(place) {
+      if (!place.geometry) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+
+      // Create a new marker
+      const marker = new AdvancedMarkerElement({
+        map: map,
         title: place.name,
         position: place.geometry.location,
         title: "Uluru",
       });
 
+      // Get the accurate position of the place
+      startPosition = (place.geometry.location.toJSON());
+      console.log("Accurate Position:", startPosition);
+      
       // Store the marker
       window.markers.push(marker);
 
@@ -65,45 +125,30 @@ async function initMap() {
     });
 
     map.fitBounds(bounds);
-    showDirectionsButtons();
+
+    // Create the directions service
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+
+    directionsRenderer.setMap(map);
+
+    button.addEventListener(
+      "click",
+      () => {
+        directionsService
+        .route({
+          origin: startPosition,
+          destination: endPosition, 
+          travelMode: google.maps.TravelMode.WALKING,
+        })
+        .then((response) => {
+          directionsRenderer.setDirections(response);
+        })
+        .catch((e) => window.alert("Directions request failed due to " + e));
+      },
+    );
   });
-}
 
-// Function to show the Directions button
-function showDirectionsButtons() {
-  const button = document.getElementById('directionsButton');
-  const startButton = document.getElementById('start');
-  button.style.display = 'block';
-  startButton.style.display = 'block';
-}
-
-function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-  document.getElementById("calculate-route").addEventListener("click", () => {
-    //const start = document.getElementById("start").value;
-    const end = document.getElementById("end").value;
-    const selectedMode = document.getElementById("mode").value;
-    const autocompleteStart = new google.maps.places.Autocomplete(document.getElementById("start"));
-    autocompleteStart.bindTo("bounds", map);
-
-    autocompleteStart.addListener("place_changed", () => {
-      const place = autocompleteStart.getPlace();
-      if (!place.geometry) {
-        window.alert("No details available for input: '" + place.name + "'");
-        return;
-      }
-    });
-
-    directionsService
-      .route({
-        origin: place.geometry.location,
-        destination: {query: end, },
-        travelMode: google.maps.TravelMode[selectedMode],
-      })
-      .then((response) => {
-        directionsRenderer.setDirections(response);
-        addMarkers(response);
-      })
-      .catch((e) => window.alert("Directions request failed due to " + e));
   });
 }
 

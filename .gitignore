@@ -30,3 +30,6 @@ coverage/
 
 # Ignore node_modules directory
 node_modules/**
+
+# Ignore configuration files
+config.js
