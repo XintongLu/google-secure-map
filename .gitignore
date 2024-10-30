@@ -29,7 +29,14 @@ Thumbs.db
 coverage/
 
 # Ignore node_modules directory
-node_modules/**
+node_modules
 
 # Ignore configuration files
 config.js
+.env
+
+# Ignore package-lock.json
+package-lock.json
+
+# Ignore test files
+test/**

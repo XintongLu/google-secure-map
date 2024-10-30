@@ -1,11 +1,66 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
+require('dotenv').config();
+const API_KEY = process.env.API_KEY;
+
+const BrightestRouteFinder = require('./public/BrightestRouteFinder');
+const brightestRouteFinder = new BrightestRouteFinder(process.env.API_KEY);
+
+// Parse application/json
+app.use(bodyParser.json());
+
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/api-key', (req, res) => {
+  res.json({ apiKey: API_KEY });
+});
+
+app.post('/api/brightest-route', async (req, res) => {
+  try {
+      const { origin, destination } = req.body;
+      
+      // Get the brightest route
+      const route = await brightestRouteFinder.findBrightestRoute(origin, destination);
+      
+      // Extract waypoints from the route
+      const waypoints = route.legs[0].steps.map(step => ({
+          lat: step.start_location.lat,
+          lng: step.start_location.lng
+      }));
+
+      // Get street light data along the route
+      const streetLights = await Promise.all(
+          waypoints.map(async point => {
+              const lightingData = await brightestRouteFinder.getLightingData(
+                  point.lat,
+                  point.lng
+              );
+              return {
+                  ...point,
+                  score: lightingData.streetLightScore
+              };
+          })
+      );
+
+      res.json({
+          waypoints,
+          streetLights,
+          duration: route.legs[0].duration,
+          distance: route.legs[0].distance
+      });
+  } catch (error) {
+      console.error('Error calculating brightest route:', error);
+      res.status(500).json({ error: 'Failed to calculate route' });
+  }
 });
 
 const PORT = process.env.PORT || 8080;
