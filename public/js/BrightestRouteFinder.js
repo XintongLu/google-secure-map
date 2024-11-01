@@ -8,6 +8,11 @@ class BrightestRouteFinder {
   }
 
   async findBrightestRoute(origin, destination, departureTime = new Date()) {
+    console.log('Requesting directions with the following parameters:');
+    console.log('Origin:', origin);
+    console.log('Destination:', destination);
+    console.log('Departure Time:', departureTime);
+
     try {
       // Get alternative routes from Google Maps
       const routesResponse = await this.googleMapsClient.directions({
@@ -20,6 +25,7 @@ class BrightestRouteFinder {
           departure_time: departureTime
         }
       });
+      console.log('Routes Response:', routesResponse.data);
 
       if (!routesResponse.data.routes.length) {
         throw new Error('No routes found');
@@ -29,6 +35,7 @@ class BrightestRouteFinder {
       const routesWithLightScores = await Promise.all(
         routesResponse.data.routes.map(async route => {
           const lightScore = await this.calculateRouteLightScore(route, departureTime);
+          console.log(`Route ${route} Score:`, lightScore);
           return { route, lightScore };
         })
       );
