@@ -22,9 +22,9 @@ async function fetchApiKey() {
   }
   
 async function loadGoogleMapsAPI() {
-    const API_KEY = await fetchApiKey();
+    const GOOGLE_MAP_API_KEY = await fetchApiKey();
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API_KEY}`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);

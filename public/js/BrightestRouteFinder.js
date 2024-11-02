@@ -2,9 +2,9 @@ const { Client } = require('@googlemaps/google-maps-services-js');
 const axios = require('axios');
 
 class BrightestRouteFinder {
-  constructor(API_KEY) {
+  constructor(GOOGLE_MAP_API_KEY) {
     this.googleMapsClient = new Client({});
-    this.apiKey = API_KEY;
+    this.apiKey = GOOGLE_MAP_API_KEY;
   }
 
   async findBrightestRoute(origin, destination, departureTime = new Date()) {
@@ -135,22 +135,5 @@ class BrightestRouteFinder {
     }
   }
 }
-
-// // Example usage
-// async function main() {
-//   const finder = new BrightestRouteFinder('YOUR_GOOGLE_MAPS_API_KEY');
-  
-//   try {
-//     const brightestRoute = await finder.findBrightestRoute(
-//       '40.7128,-74.0060', // New York
-//       '40.7614,-73.9776', // Manhattan
-//       new Date()
-//     );
-    
-//     console.log('Brightest route found:', brightestRoute);
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// }
 
 module.exports = BrightestRouteFinder;

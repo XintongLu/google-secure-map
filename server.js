@@ -3,10 +3,10 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 require('dotenv').config();
-const API_KEY = process.env.API_KEY;
+const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
 
 const BrightestRouteFinder = require('./public/js/BrightestRouteFinder');
-const brightestRouteFinder = new BrightestRouteFinder(process.env.API_KEY);
+const brightestRouteFinder = new BrightestRouteFinder(process.env.GOOGLE_MAP_API_KEY);
 
 // Parse application/json
 app.use(bodyParser.json());
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api-key', (req, res) => {
-  res.json({ apiKey: API_KEY });
+  res.json({ apiKey: GOOGLE_MAP_API_KEY });
 });
 
 app.post('/api/brightest-route', async (req, res) => {
