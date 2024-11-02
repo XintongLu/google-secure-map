@@ -107,6 +107,28 @@ async function initMap() {
     console.error('Directions button not found');
 }
 });
+
+const call = document.getElementById('call');
+
+if (call) {
+  call.addEventListener("click", async function() {
+    const prompt = document.getElementById('prompt').value;
+    console.log('Prompt:', prompt);
+    const response = await fetch('/api/get-route', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt }),
+    });
+
+    const data = await response.json();
+    console.log('API Response:', data);
+  });
+} else {
+  console.error('Call button not found');
+}
 }
 // Load the Google Maps API script
 loadGoogleMapsAPI();
+

@@ -8,6 +8,10 @@ const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
 const BrightestRouteFinder = require('./public/js/BrightestRouteFinder');
 const brightestRouteFinder = new BrightestRouteFinder(process.env.GOOGLE_MAP_API_KEY);
 
+const CallGemini = require('./public/js/CallGemini');
+const callGemini = new CallGemini(process.env.GEMINI_API_KEY);
+
+
 // Parse application/json
 app.use(bodyParser.json());
 
@@ -24,6 +28,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api-key', (req, res) => {
   res.json({ apiKey: GOOGLE_MAP_API_KEY });
+});
+
+app.post('/api/get-route', async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    console.log('Getting route from Gemini with prompt:', prompt);
+    const routeInfo = await callGemini.startChat(prompt);
+    res.json(routeInfo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.post('/api/brightest-route', async (req, res) => {
