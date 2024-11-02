@@ -32,34 +32,34 @@
   height: 820px;
   align-items: center;
   margin-top: 40px;
-  background-color: #ffffff;
+  background-color: #6ef8ea;
   border-radius: 20px;
 }
 
 .mode-icon {
-  padding-top: 30px;
+  align-content: center;
   width: 30px;
   height: 30px;
-  margin-right: 10px;
+  margin-right: 5%;
 }
 
 .mode-label {
-  padding-top: 30px;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight:500;
 }
 
 .search-input {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #8a8a8a;
   border-radius: 5px;
 }
 
 .mode-buttons-container {
   display: flex;
-  gap: 16px;
+  margin-left: 10px;
+  gap: 18px;
   margin-bottom: 20px;
   width: 100%;
   justify-content: flex-start;
@@ -70,7 +70,7 @@
   width: 110px;
   height: 40px;
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #8a8a8a;
   border-radius: 20px;
   cursor: pointer;
   padding: 0 5px;
@@ -82,7 +82,7 @@
 }
 
 .mode-button:hover {
-  background-color: #f0f0f0;
+  background-color: #6ef8ea;
 }
 
 .mode-content {
@@ -96,13 +96,14 @@
 .mode-icon {
   width: 24px;
   height: 24px;
+  margin-left: -5px;
   object-fit: contain;
 }
 
 .mode-label {
-  font-size: 10px;
+  font-size: 12px;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   white-space: nowrap;
 }
 
@@ -111,7 +112,20 @@
   justify-content: flex-end;
   gap: 20px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
+}
+
+.function-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;  /* 按钮和文字之间的间距 */
+}
+
+.function-label {
+  font-size: 12px;  /* 文字大小 */
+  color: #333;      /* 文字颜色 */
+  text-align: center;
 }
 
 .function-button {

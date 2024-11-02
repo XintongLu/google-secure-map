@@ -7,22 +7,44 @@
     <link rel="stylesheet" href="css/navigate.css">
     <link rel="stylesheet" href="css/styleguide.css">
     <script src="js/index.js" async defer></script>
+    <script>
+        (g => {
+            var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
+            b = b[c] || (b[c] = {});
+            var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {
+                await (a = m.createElement("script"));
+                e.set("libraries", [...r] + "");
+                for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                e.set("callback", c + ".maps." + q);
+                a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+                d[q] = f;
+                a.onerror = () => h = n(Error(p + " could not load."));
+                a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                m.head.append(a)
+            }));
+            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+        })({
+            key: API_KEY,
+            v: "weekly",
+        });
+    </script>
+    <script src="index.js" async defer></script>
 </head>
-<body style="margin: 0; background: #f4a8e1">
+<body style="margin: 0; background: #ffffff">
     <div class="navigate">
         <div class="mode-buttons-container">
             <button onclick="window.location.href='walking.html'" class="mode-button">
-                <img class="mode-icon" src="" >
+                <img class="mode-icon" src="img/Google- Women-icons-05.png" >
                 <span class="mode-label">Walking</span>
             </button>
             
             <button onclick="window.location.href='cycling.html'" class="mode-button">
-                <img class="mode-icon" src="" >
+                <img class="mode-icon" src="img/Google- Women-icons-03.png" >
                 <span class="mode-label">Cycling</span>
             </button>
             
             <button onclick="window.location.href='driving.html'" class="mode-button">
-                <img class="mode-icon" src="" >
+                <img class="mode-icon" src="img/Google- Women-icons-04.png" >
                 <span class="mode-label">Driving</span>
             </button>
         </div>
@@ -30,12 +52,18 @@
         <input id="destination" type="text" class="search-input" placeholder="Type here for your destination">
 
         <div class="function-buttons-container">
-            <button id="directionButton" class="function-button">
-                <img src="" alt="Directions">
-            </button>
-            <button onclick="window.location.href='share.html'" class="function-button">
-                <img src="" alt="Share">
-            </button>
+            <div class="function-button-wrapper">
+                <button id="directionButton" class="function-button">
+                    <img src="img/Google- Women-icons-08.png" alt="Directions">
+                </button>
+                <span class="function-label">Route</span>
+            </div>
+            <div class="function-button-wrapper">
+                <button onclick="window.location.href='share.html'" class="function-button">
+                    <img src="img/share.png" alt="Share">
+                </button>
+                <span class="function-label">Share</span>
+            </div>
         </div>
 
         <div id="map" class="green-section"></div>
