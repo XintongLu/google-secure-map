@@ -10,26 +10,31 @@
 </head>
 <body style="margin: 0; background: #ffffff">
     <div class="navigate">
-        <div class="mode-buttons-container">
-            <button onclick="window.location.href='walking.html'" class="mode-button">
-                <img class="mode-icon" src="img/Google- Women-icons-05.png" >
-                <span class="mode-label">Walking</span>
+     <div class="search-container">
+            <input type="text" class="search-input" placeholder="Type here for your destination">
+            <button onclick="window.location.href='walking.html'" class="yes-button">
+                <img src="IMG/Google- Women-icons-01.png" alt="Yes">
             </button>
-            
-            <button onclick="window.location.href='cycling.html'" class="mode-button">
-                <img class="mode-icon" src="img/Google- Women-icons-03.png" >
-                <span class="mode-label">Cycling</span>
-            </button>
-            
-            <button onclick="window.location.href='driving.html'" class="mode-button">
-                <img class="mode-icon" src="img/Google- Women-icons-04.png" >
-                <span class="mode-label">Driving</span>
+            <button onclick="window.location.href='AI.html'" class="back-button">
+                <img src="IMG/Google- Women-icons-09.png" alt="Back">
             </button>
         </div>
-
-        <input id="destination" type="text" class="search-input" placeholder="Type here for your destination">
+        
 
         <div class="function-buttons-container">
+            <div class="mode-buttons-container">
+                <button onclick="window.location.href='walking.html'" class="mode-button">
+                    <img class="mode-icon" src="img/Google- Women-icons-05.png" >
+                    <span class="mode-label">Walking</span>
+                </button>
+                
+                <button onclick="window.location.href='cycling.html'" class="mode-button">
+                    <img class="mode-icon" src="img/Google- Women-icons-03.png" >
+                    <span class="mode-label">Cycling</span>
+                </button>
+                
+              
+            </div>
             <div class="function-button-wrapper">
                 <button id="directionButton" class="function-button">
                     <img src="img/Google- Women-icons-08.png" alt="Directions">
