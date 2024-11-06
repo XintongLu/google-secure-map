@@ -1,0 +1,250 @@
+.Choose-Route {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+    overflow: hidden;
+    width: 350px;
+    position: relative;
+    padding: 30px 16px;
+    border: 4px solid #333;
+    border-radius: 40px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.3);
+    margin: 0 auto;
+  }
+  
+  .Choose-Route::before {
+    content: '';
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 30px;
+    background-color: #333;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  
+  .green-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    margin-top: 0;
+    background-color: #6ef8ea;
+    border-radius: 20px;
+  }
+
+  .function-buttons-container {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    display: flex;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 2;
+  }
+
+  .mode-icon {
+    align-content: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 5%;
+  }
+  
+  .mode-label {
+    font-size: 20px;
+    font-weight:500;
+  }
+
+  .mode-buttons-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .mode-button {
+    min-width: 90px;
+    height: 40px;
+    background-color: #ffffff;
+    border: 1px solid #8a8a8a;
+    border-radius: 20px;
+    cursor: pointer;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+  .mode-button:hover {
+    background-color: #6ef8ea;
+  }
+  
+  .mode-content {
+    display: flex;
+    gap: 8px;
+    width: calc(100% - 10px);  /* 考虑padding后的宽度 */
+    height: 100%;
+  }
+  
+  .mode-icon {
+    width: 35px;
+    height: 35px;
+    margin-left: -10px;
+    object-fit: contain;
+  }
+  
+  .mode-label {
+    font-size: 12px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 300;
+    white-space: nowrap;
+  }
+
+  .function-button-wrapper {
+    position: absolute;
+    bottom: 90px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    z-index: 1;
+}
+
+.function-button {
+    padding: 10px 20px;    /* 上下10px，左右20px的内边距 */
+    background-color: rgb(0, 255, 242);    
+    outline: 1px solid white;
+    color: rgb(0, 0, 0);          /* 文字颜色 */
+    border: none;          /* 移除边框 */
+    border-radius: 6px;    /* 稍微圆角的效果，如果想要完全的长方形可以设为 0 */
+    cursor: pointer;       /* 鼠标悬停时显示手型 */
+    font-size: 16px;       /* 文字大小 */
+}
+
+.function-button:hover {
+    background-color:white;    /* 鼠标悬停时的颜色 */
+}
+  .search-container {
+    position: absolute;
+    width: 70%;
+    left: 40%;
+    transform: translateX(-50%);
+    bottom: 30px;
+    padding-bottom: 0;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 12px 40px 12px 40px;
+    border-radius: 25px;
+    border: 1px solid #4a4a4a;
+    outline: none;
+  }
+  
+  .yes-button {
+    position: absolute;
+    left:300px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .yes-button img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .Assistant  {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .Assistant img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .emergency-button {
+    position: absolute;
+    top: 150px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #ff5500;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    color: white;
+    font-size: 10px;
+}
+
+.emergency-hint {
+    position: absolute;
+    top: 215px;
+    right: 30px;
+    width: 60px;
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    color: #000000;
+}
+
+/* 添加按压效果 */
+.emergency-button:active {
+    transform: scale(0.95);
+}
+
+.go-back {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    z-index: 2;
+}
+
+.back-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.back-button img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.back-button:hover {
+    background-color: #f5f5f5;
+}

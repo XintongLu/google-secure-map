@@ -1,0 +1,93 @@
+.AI {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+    overflow: hidden;
+    width: 350px;
+    position: relative;
+    padding: 30px 16px;
+    border: 4px solid #333;
+    border-radius: 40px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.3);
+    margin: 0 auto;
+  }
+  
+  .AI::before {
+    content: '';
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 30px;
+    background-color: #333;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  
+  .green-section {
+    top: 0;
+    width: 360px;
+    height: 720px;
+    align-items: center;
+    margin-top: 10px;
+    background-color: #6ef8ea;
+    border-radius: 20px;
+  }
+  
+  .search-container {
+    position: relative;
+    width: 80%;
+    right: 40px;
+    margin-left: 10px;
+    top: 20px;
+    bottom: 20px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding-right: 30px; /* 为yes按钮留出空间 */
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 40px;
+    border-radius: 25px;
+    border: 1px solid #4a4a4a;
+    outline: none;
+  }
+  
+  .yes-button {
+    position: absolute;
+    right: 0px;
+    left: 300px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .yes-button img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .Assistant  {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .Assistant img {
+    width: 30px;
+    height: 30px;
+  }

@@ -2,9 +2,9 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 852px;
+  height: 800px;
   overflow: hidden;
-  width: 393px;
+  width: 350px;
   position: relative;
   padding: 30px 16px;
   border: 4px solid #333;
@@ -27,11 +27,11 @@
 }
 
 .green-section {
-  top: 300px;
-  width: 400px;
-  height: 820px;
+  top: 100px;
+  width: 360px;
+  height: 800px;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 20px;
   background-color: #6ef8ea;
   border-radius: 20px;
 }
@@ -49,7 +49,7 @@
 }
 
 .search-input {
-  width: 90%;
+  width: 70%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #8a8a8a;
@@ -58,16 +58,15 @@
 
 .mode-buttons-container {
   display: flex;
-  margin-left: 10px;
+  margin-left: 20px;
   gap: 18px;
-  margin-bottom: 20px;
   width: 100%;
   justify-content: flex-start;
-  padding-top: 30px;
+  padding-top: 5px;
 }
 
 .mode-button {
-  width: 110px;
+  width: 90px;
   height: 40px;
   background-color: #ffffff;
   border: 1px solid #8a8a8a;
@@ -87,7 +86,6 @@
 
 .mode-content {
   display: flex;
-  align-items: center;
   gap: 8px;
   width: calc(100% - 10px);  /* 考虑padding后的宽度 */
   height: 100%;
@@ -96,7 +94,7 @@
 .mode-icon {
   width: 24px;
   height: 24px;
-  margin-left: -5px;
+  margin-left: -10px;
   object-fit: contain;
 }
 
@@ -110,42 +108,111 @@
 .function-buttons-container {
   display: flex;
   justify-content: flex-end;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
   margin-top: 10px;
+  margin-right: 20px;
 }
 
 .function-button-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 5px;
   gap: 0px;  /* 按钮和文字之间的间距 */
 }
+
+.function-button {
+  width: 4%;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border:4px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 
 .function-label {
   font-size: 12px;  /* 文字大小 */
   color: #333;      /* 文字颜色 */
   text-align: center;
+  padding-top: 3px;
 }
 
 .function-button {
-  width: 40px;
-  height: 40px;
-  background: none;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border: 0.5px solid #333;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+}
+
+.function-button img {
+  width: 24px;
+  height: 24px;
 }
 
 .function-button:hover {
   transform: scale(1.1);
 }
 
-.function-button img {
-  width: 24px;
-  height: 24px;
+
+.search-container {
+  margin-top: 20px;
+  position: relative;
+  width: 80%;
+  right: 30px;
+  margin-left: 10px;
+}
+
+.search-input {
+  width: 100%;
+  padding-right: 30px; /* 为yes按钮留出空间 */
+  padding-left: 35px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.yes-button {
+  position: absolute;
+  right: 0px;
+  left: 300px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.yes-button img {
+  width: 40px;
+  height: 40px;
+}
+
+.back-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.back-button img {
+  width: 40px;
+  height: 40px;
 }
