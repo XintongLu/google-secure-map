@@ -8,30 +8,31 @@
     <link rel="stylesheet" href="css/styleguide.css">
     <script src="js/index.js" async defer></script>
 </head>
-<body style="margin: 0; background: #ffffff">
+<body>
     <div class="Choose-Route">
         <div id="map" class="green-section"></div>
 
         <div class="go-back">
-            <button onclick="window.location.href='navigate.html'" class="back-button">
-                <img src="img/Google- Women-icons-09.png" alt="Back">
-            </button>
-
+            <div class="back-button-container">
+                <button class="back-button" onclick="goToNavigate()">
+                    <img src="img/Google- Women-icons-09.png" alt="Back">
+                </button>
+            </div>
         </div>
-
+        
         <div class="function-buttons-container">
-            <div onclick="window.location.href='cycling.html'"class="mode-buttons-container">
-                <button class="mode-button">
+            <div class="mode-buttons-container">
+                <button onclick="goToBrightestRoute()" class="mode-button">
                     <img class="mode-icon" src="img/Google- Women-icons-07.png">
                     <span class="mode-label">Brightest</span>
                 </button>
                 
-                <button onclick="window.location.href='c.html'" class="mode-button">
+                <button onclick="goToCCTVRoute()" class="mode-button">
                     <img class="mode-icon" src="img/Google- Women-icons-06.png">
                     <span class="mode-label">CCTV</span>
                 </button>
                 
-                <button onclick="window.location.href='c.html'" class="mode-button">
+                <button onclick="goToPoliceRoute()" class="mode-button">
                     <img class="mode-icon" src="img/Google- Women-icons-11.png">
                     <span class="mode-label">Police</span>
                 </button>
@@ -39,30 +40,65 @@
         </div>
 
         <div class="AI">
-            <!-- 添加紧急报警按钮 -->
             <button id="emergency-button" class="emergency-button">Emergency</button>
             <span class="emergency-hint">Long press</span>
 
             <div class="function-button-wrapper">
-                <button id="directionButton" class="function-button">
-                    Start
-                </button>
+                <button id="directionButton" class="function-button">Start</button>
             </div>
     
             <div class="search-container">
                 <input type="text" class="search-input" placeholder="Plan a safety route with lights and shops">
-            <button onclick="window.location.href='walking.html'" class="yes-button">
-                <img src="IMG/Google- Women-icons-01.png" alt="Yes">
-            </button>
-            <button class="Assistant">
-                <img src="img/Google- Women-icons-02.png" alt="Assistant">
-            </button>
-          
+                <button onclick="goToWalking()" class="yes-button">
+                    <img src="IMG/Google- Women-icons-01.png" alt="Yes">
+                </button>
+                <button class="Assistant">
+                    <img src="img/Google- Women-icons-02.png" alt="Assistant">
+                </button>
             </div>
         </div>
-
- 
-
     </div>
+
+
+    <script>
+        function goToNavigate() {
+            window.location.href = 'navigate.html';
+        }
+        
+        function goToBrightestRoute() {
+            window.location.href = 'brightest-route.html';
+        }
+        
+        function goToCCTVRoute() {
+            window.location.href = 'cctv-route.html';
+        }
+        
+        function goToPoliceRoute() {
+            window.location.href = 'police-route.html';
+        }
+        
+        function goToWalking() {
+            window.location.href = 'walking.html';
+        }
+        
+        // Emergency button long press functionality
+        let pressTimer;
+        const emergencyButton = document.getElementById('emergency-button');
+        
+        emergencyButton.addEventListener('mousedown', function() {
+            pressTimer = window.setTimeout(function() {
+                // Add emergency action here
+                alert('Emergency services contacted!');
+            }, 1000);
+        });
+        
+        emergencyButton.addEventListener('mouseup', function() {
+            clearTimeout(pressTimer);
+        });
+        
+        emergencyButton.addEventListener('mouseleave', function() {
+            clearTimeout(pressTimer);
+        });
+    </script>
 </body>
 </html>
