@@ -128,7 +128,68 @@ if (call) {
 } else {
   console.error('Call button not found');
 }
-}
+
+
+
+
+//添加一个 emergency button 的长按事件，对应在 choose-route。html 中
+document.addEventListener('DOMContentLoaded', function() {
+    const emergencyButton = document.getElementById('emergency-button');
+    let pressTimer;
+
+    // 开始按压
+    emergencyButton.addEventListener('mousedown', function() {
+        pressTimer = setTimeout(() => {
+            handleEmergencyCall();
+        }, 3000); // 3秒后触发
+    });
+
+    // 如果手指移开或松开，取消计时器
+    emergencyButton.addEventListener('mouseup', function() {
+        clearTimeout(pressTimer);
+    });
+    
+    emergencyButton.addEventListener('mouseleave', function() {
+        clearTimeout(pressTimer);
+    });
+
+
+
+
+
+
+
+    // 处理紧急呼叫
+    function handleEmergencyCall() {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                // 这里可以根据实际需求修改紧急电话号码
+                const emergencyNumber = '110'; // 中国警察报警电话
+                
+                // 创建紧急呼叫链接
+                const emergencyUrl = `tel:${emergencyNumber}`;
+                
+                // 可以在这里添加发送位置信息到紧急服务的逻辑
+                alert(`正在拨打警察电话，您的位置是：\n纬度:${latitude}\n经度: ${longitude}`);
+                
+                // 触发电话呼叫
+                window.location.href = emergencyUrl;
+            });
+        } else {
+            alert("您的浏览器不支持地理位置功能");
+        }
+    }
+});
+// emergency 事件 结束
+
+
+
+
+
 // Load the Google Maps API script
 loadGoogleMapsAPI();
 
+}
