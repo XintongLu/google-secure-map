@@ -128,8 +128,9 @@ if (call) {
 } else {
   console.error('Call button not found');
 }
-
-
+}
+// Load the Google Maps API script
+loadGoogleMapsAPI();
 
 
 //添加一个 emergency button 的长按事件，对应在 choose-route。html 中
@@ -186,10 +187,3 @@ document.addEventListener('DOMContentLoaded', function() {
 // emergency 事件 结束
 
 
-
-
-
-// Load the Google Maps API script
-loadGoogleMapsAPI();
-
-}

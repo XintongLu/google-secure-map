@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve navigate.html for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'navigate.html'));
+  res.sendFile(path.join(__dirname, 'public', 'AI_Route.html'));
 });
 
 // Serve static files from the public directory
