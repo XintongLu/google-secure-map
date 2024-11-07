@@ -1,0 +1,97 @@
+.landing {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+    overflow: hidden;
+    width: 350px;
+    position: relative;
+    padding: 30px 16px;
+    border: 4px solid #333;
+    border-radius: 40px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.3);
+    margin: 0 auto;
+  }
+  
+  .landing::before {
+    content: '';
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 30px;
+    background-color: #333;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  /* 品牌信息容器样式 */
+  .brand_information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;  /* 让内容垂直居中 */
+    padding: 20px;
+  }
+
+  /* Logo 容器样式 */
+  .logo {
+    margin-bottom: 30px;
+  }
+
+  /* Logo 图片样式 */
+  .logo-image {
+    width: 200px;  /* 可根据实际需求调整大小 */
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* Slogan 文字样式 */
+  .slogan {
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #333333;
+    text-align: center;
+    font-weight: 300;
+    margin-top: 20px;
+  }
+
+  /* Next 按钮容器样式 */
+  .next-button-container {
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* Next 按钮样式 */
+  .next-button {
+    padding: 15px 60px;
+    background-color: #ffffff;  /* 蓝色背景，可以根据需要修改 */
+    color: rgb(0, 0, 0);
+    border: 1px solid black;
+    border-radius: 25px;
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 按钮悬停效果 */
+  .next-button:hover {
+    background-color: #6ef8ea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 按钮点击效果 */
+  .next-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
