@@ -28,12 +28,12 @@
   
   .green-section {
     position: absolute;
-    top: 0;
+    top: 13%;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    height: 100%;
+    height: 80%;
     align-items: center;
     margin-top: 0;
     background-color: #6ef8ea;
@@ -141,6 +141,7 @@
     transform: translateX(-50%);
     bottom: 30px;
     padding-bottom: 0;
+
   }
   
   .search-input {
