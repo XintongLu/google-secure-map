@@ -19,6 +19,7 @@ async function loadGoogleMapsAPI() {
   script.onload = initMap;
 }
 
+// Main
 async function initMap() {
   // Request needed libraries.
   //@ts-ignore
@@ -28,76 +29,111 @@ async function initMap() {
 
   // Initialize the map
   var map = new Map(document.getElementById('map'), {
-    center: {lat: 48.8566, lng: 2.3522},
+    center: { lat: 48.8566, lng: 2.3522 },
     zoom: 13,
     mapId: "MAP_ID",
   });
 
-  // Create the search box and link it to the UI element.
-  var destinationInput = document.getElementById('destination');
-  var destinationBox = new SearchBox(destinationInput);
-  
-  // Bias the SearchBox results towards current map's viewport.
-  map.addListener('bounds_changed', function() {
-    destinationBox.setBounds(map.getBounds());
+  let destinationPosition;
+
+  // Check if AI button is clicked
+  const aiButton = document.getElementById('ai');
+
+  aiButton.addEventListener("click", async function () {
+    const routeJsonString = await askAIForRoute(aiButton);
+    routeJson = JSON.parse(routeJsonString);
+
+    const destinationPosition = await geoCoder(routeJson.end);
+    console.log("Destination Position from AI:", destinationPosition);
   });
 
-  // Listen for the event fired when the user selects a prediction and retrieve
-  // more details for that place.
-  destinationBox.addListener('places_changed', function() {
-    var places = destinationBox.getPlaces();
+  destinationPosition = await search(map, SearchBox, AdvancedMarkerElement);
+  console.log("Destination Position from Search:", destinationPosition);
 
-    if (places.length == 0) {
-      return;
-    }
+  if (destinationPosition) {
+    getRoute(destinationPosition);
+  } else {
+    console.error('Destination position not found');
+  }
 
-    var bounds = new google.maps.LatLngBounds();
-    places.forEach(function(destinationPlace) {
-      
-      if (!destinationPlace.geometry) {
-        console.log("Returned place contains no geometry");
-        return;
+}
+
+async function search(map, SearchBox, AdvancedMarkerElement) {
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function () {
+      destinationBox.setBounds(map.getBounds());
+    });
+    // Create the search box and link it to the UI element.
+    var destinationInput = document.getElementById('destination');
+    var destinationBox = new SearchBox(destinationInput);
+
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    return new Promise((resolve, reject) => {
+    destinationBox.addListener('places_changed', function () {
+
+      var places = destinationBox.getPlaces();
+
+      if (places.length == 0) {
+        return reject('No places found');
       }
 
-      // Clear existing markers
-      if (window.markers) {
-        window.markers.forEach(marker => marker.setMap(null));
-      }
-      window.markers = [];
+      var bounds = new google.maps.LatLngBounds();
+      var destinationPosition = null;
 
-      // Create a new marker
-      const marker = new AdvancedMarkerElement({
-        map: map,
-        title: destinationPlace.name,
-        position: destinationPlace.geometry.location,
-        title: "Uluru",
-      });
-      // Get the accurate position of the place
-      destinationPosition=(destinationPlace.geometry.location.toJSON());
-      console.log("Destination Position:", destinationPosition);
+      places.forEach(function (destinationPlace) {
 
-      // Store the marker
-      window.markers.push(marker);
+        if (!destinationPlace.geometry) {
+          console.log("Returned place contains no geometry");
+          return;
+        }
 
-      if (destinationPlace.geometry.viewport) {
-        // Only geocodes have viewport.
-        bounds.union(destinationPlace.geometry.viewport);
+        // Clear existing markers
+        if (window.markers) {
+          window.markers.forEach(marker => marker.setMap(null));
+        }
+        window.markers = [];
+
+        // Create a new marker
+        const marker = new AdvancedMarkerElement({
+          map: map,
+          title: destinationPlace.name,
+          position: destinationPlace.geometry.location,
+          title: "Uluru",
+        });
+        // Store the marker
+        window.markers.push(marker);
+
+        // Get the accurate position of the place
+        destinationPosition = (destinationPlace.geometry.location.toJSON());
+        console.log("Destination Position:", destinationPosition);
+        if (destinationPlace.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(destinationPlace.geometry.viewport);
       } else {
-        bounds.extend(destinationPlace.geometry.location);
+          bounds.extend(destinationPlace.geometry.location);
       }
     });
-
     map.fitBounds(bounds);
-    
+    if (destinationPosition) {
+      resolve(destinationPosition);
+    } else {
+        reject('No valid destination position found');
+    }
+  });
+});
+}
+
+async function getRoute(destinationPosition) {
   // Suppose the user's current location is Arc de Triomphe
-  startPosition = {lat: 48.8737917, lng: 2.295027499999999}
+  startPosition = { lat: 48.8737917, lng: 2.295027499999999 }
   console.log("Current Position:", startPosition);
 
   // Add a button to get directions
   const dirButton = document.getElementById('directionButton');
-  
+
   if (dirButton) {
-    dirButton.addEventListener("click", function() {
+    dirButton.addEventListener("click", function () {
       const destinationString = encodeURIComponent(JSON.stringify(destinationPosition));
       const startPositionString = encodeURIComponent(JSON.stringify(startPosition));
       const url = `route.html?start=${startPositionString}&destination=${destinationString}`;
@@ -105,84 +141,112 @@ async function initMap() {
     });
   } else {
     console.error('Directions button not found');
-}
-});
+  }
+};
 
-const call = document.getElementById('call');
+async function askAIForRoute(aiButton) {
+  if (aiButton) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const prompt = document.getElementById('prompt').value;
+        const response = await fetch('/api/ask-gemini', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt }),
+        });
 
-if (call) {
-  call.addEventListener("click", async function() {
-    const prompt = document.getElementById('prompt').value;
-    console.log('Prompt:', prompt);
-    const response = await fetch('/api/get-route', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ prompt }),
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data);
+
+        // Resolve the promise with the data
+        resolve(data);
+      } catch (error) {
+        console.error('Error fetching AI route:', error);
+        reject(error);
+      }
     });
+  } else {
+    console.error('AI button not found');
+    return Promise.reject('AI button not found');
+  }
+};
 
-    const data = await response.json();
-    console.log('API Response:', data);
+async function geoCoder(location) {
+  const geocoder = new google.maps.Geocoder();
+  return new Promise((resolve, reject) => {
+    geocoder.geocode({ address: location }, function (results, status) {
+      if (status === 'OK') {
+        const position = results[0].geometry.location.toJSON();
+        console.log("Geocoded Position:", position);
+        // Resolve the promise with the data
+        resolve(position);
+      } else {
+        console.error('Geocode was not successful for the following reason: ' + status);
+        reject(error);
+      }
+    });
   });
-} else {
-  console.error('Call button not found');
-}
-}
+};
+
 // Load the Google Maps API script
 loadGoogleMapsAPI();
 
-
 //添加一个 emergency button 的长按事件，对应在 choose-route。html 中
-document.addEventListener('DOMContentLoaded', function() {
-    const emergencyButton = document.getElementById('emergency-button');
-    let pressTimer;
+document.addEventListener('DOMContentLoaded', function () {
+  const emergencyButton = document.getElementById('emergency-button');
+  let pressTimer;
 
-    // 开始按压
-    emergencyButton.addEventListener('mousedown', function() {
-        pressTimer = setTimeout(() => {
-            handleEmergencyCall();
-        }, 3000); // 3秒后触发
-    });
+  // 开始按压
+  emergencyButton.addEventListener('mousedown', function () {
+    pressTimer = setTimeout(() => {
+      handleEmergencyCall();
+    }, 3000); // 3秒后触发
+  });
 
-    // 如果手指移开或松开，取消计时器
-    emergencyButton.addEventListener('mouseup', function() {
-        clearTimeout(pressTimer);
-    });
-    
-    emergencyButton.addEventListener('mouseleave', function() {
-        clearTimeout(pressTimer);
-    });
+  // 如果手指移开或松开，取消计时器
+  emergencyButton.addEventListener('mouseup', function () {
+    clearTimeout(pressTimer);
+  });
 
-
+  emergencyButton.addEventListener('mouseleave', function () {
+    clearTimeout(pressTimer);
+  });
 
 
 
 
 
-    // 处理紧急呼叫
-    function handleEmergencyCall() {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                
-                // 这里可以根据实际需求修改紧急电话号码
-                const emergencyNumber = '110'; // 中国警察报警电话
-                
-                // 创建紧急呼叫链接
-                const emergencyUrl = `tel:${emergencyNumber}`;
-                
-                // 可以在这里添加发送位置信息到紧急服务的逻辑
-                alert(`正在拨打警察电话，您的位置是：\n纬度:${latitude}\n经度: ${longitude}`);
-                
-                // 触发电话呼叫
-                window.location.href = emergencyUrl;
-            });
-        } else {
-            alert("您的浏览器不支持地理位置功能");
-        }
+
+
+  // 处理紧急呼叫
+  function handleEmergencyCall() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        // 这里可以根据实际需求修改紧急电话号码
+        const emergencyNumber = '110'; // 中国警察报警电话
+
+        // 创建紧急呼叫链接
+        const emergencyUrl = `tel:${emergencyNumber}`;
+
+        // 可以在这里添加发送位置信息到紧急服务的逻辑
+        alert(`正在拨打警察电话，您的位置是：\n纬度:${latitude}\n经度: ${longitude}`);
+
+        // 触发电话呼叫
+        window.location.href = emergencyUrl;
+      });
+    } else {
+      alert("您的浏览器不支持地理位置功能");
     }
+  }
 });
 // emergency 事件 结束
 

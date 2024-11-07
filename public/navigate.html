@@ -10,33 +10,33 @@
 </head>
 <body style="margin: 0; background: #ffffff">
     <div class="navigate">
-     <div class="search-container">
-            <input type="text" class="search-input" placeholder="Type here for your destination">
-            <button onclick="window.location.href='navigate.html'" class="yes-button">
-                <img src="IMG/Google-Women-icons-01.png" alt="Yes">
-            </button>
-            <button onclick="window.location.href='AI_Route.html'" class="back-button">
-                <img src="IMG/Google-Women-icons-09.png" alt="Back">
-            </button>
-        </div>
-        
+        <div class="search-container">
+        <input id="destination" type="text" class="search-input" placeholder="Type here for your destination">
+        <button onclick="window.location.href='navigate.html'" class="yes-button">
+            <img src="IMG/Google-Women-icons-01.png" alt="Yes">
+        </button>
+        <button onclick="window.location.href='AI_Route.html'" class="back-button">
+            <img src="IMG/Google-Women-icons-09.png" alt="Back">
+        </button>
+    </div>
 
-        <div class="function-buttons-container">
-            <div class="mode-buttons-container">
-                <button onclick="window.location.href='walking.html'" class="mode-button">
-                    <img class="mode-icon" src="img/Google-Women-icons-05.png" >
-                    <span class="mode-label">Walking</span>
-                </button>
-                
-                <button onclick="window.location.href='cycling.html'" class="mode-button">
-                    <img class="mode-icon" src="img/Google-Women-icons-03.png" >
-                    <span class="mode-label">Cycling</span>
-                </button>
-                
-              
-            </div>
+
+    <div class="function-buttons-container">
+        <div class="mode-buttons-container">
+            <button onclick="window.location.href='walking.html'" class="mode-button">
+                <img class="mode-icon" src="img/Google-Women-icons-05.png" >
+                <span class="mode-label">Walking</span>
+            </button>
+            
+            <button onclick="window.location.href='cycling.html'" class="mode-button">
+                <img class="mode-icon" src="img/Google-Women-icons-03.png" >
+                <span class="mode-label">Cycling</span>
+            </button>
+            
+
+        </div>
             <div class="function-button-wrapper">
-                <button onclick="window.location.href='Choose_Route.html'" class="function-button">
+                <button id="directionButton" onclick="window.location.href='Choose_Route.html'" class="function-button">
                     <img src="img/Google-Women-icons-08.png" alt="Directions">
                 </button>
                 <span class="function-label">Route</span>
@@ -53,6 +53,6 @@
 
     </div>
     <input id="prompt" type="text" class="search-input" placeholder="AI">
-    <button id="call"> Call </button>
+    <button id="ai"> Call </button>
 </body>
 </html>

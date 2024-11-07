@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve navigate.html for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'AI_Route.html'));
+  res.sendFile(path.join(__dirname, 'public', 'navigate.html'));
 });
 
 // Serve static files from the public directory
@@ -30,7 +30,7 @@ app.get('/api-key', (req, res) => {
   res.json({ apiKey: GOOGLE_MAP_API_KEY });
 });
 
-app.post('/api/get-route', async (req, res) => {
+app.post('/api/ask-gemini', async (req, res) => {
   try {
     const { prompt } = req.body;
     console.log('Getting route from Gemini with prompt:', prompt);

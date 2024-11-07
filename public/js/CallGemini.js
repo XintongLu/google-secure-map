@@ -73,9 +73,10 @@ class CallGemini {
     });
   
     const result = await chatSession.sendMessage(prompt);
-    console.log(result.response.text());
-    return result
+    const resultText = result.response.text();
+    return resultText
   }
 }
 //I want to take metro from Arc de Triomphe to Eiffel Tower and I want to choose the brightest route
+//I want to Eiffel Tower by taking metro and I want to choose the brightest route
 module.exports = CallGemini;
