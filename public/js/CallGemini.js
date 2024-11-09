@@ -79,4 +79,5 @@ class CallGemini {
 }
 //I want to take metro from Arc de Triomphe to Eiffel Tower and I want to choose the brightest route
 //I want to Eiffel Tower by taking metro and I want to choose the brightest route
+//I want to take metro from Plaza de Mayo to Abasto Shopping and I want to walk near the angela accepted places
 module.exports = CallGemini;

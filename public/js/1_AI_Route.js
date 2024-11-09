@@ -29,7 +29,7 @@ async function initMap() {
 
   // Initialize the map
   var map = new Map(document.getElementById('map'), {
-    center: { lat: 48.8566, lng: 2.3522 },
+    center: {lat: -34.6037, lng: -58.3816}, // Coordinates for Buenos Aires
     zoom: 13,
     mapId: "MAP_ID",
   });
@@ -135,8 +135,8 @@ async function search(map, SearchBox, AdvancedMarkerElement) {
 }
 
 async function getRoute(destinationPosition) {
-  // Suppose the user's current location is Arc de Triomphe
-  startPosition = { lat: 48.8737917, lng: 2.295027499999999 }
+  // Suppose the user's current location is Plaza de Mayo, Buenos Aires
+  startPosition = {lat: -34.6185589, lng: -58.3725069}
   console.log("Current Position:", startPosition);
 
   // Redirect to the route page

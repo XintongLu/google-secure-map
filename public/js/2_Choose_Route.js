@@ -41,7 +41,7 @@ async function initMap(start, destination) {
       // Initialize the map
     var map = new Map(document.getElementById('map'), {
         zoom: 13,
-        center: {lat: 48.87, lng: 2.29},
+        center: {lat: -34.6037, lng: -58.3816}, // Coordinates for Buenos Aires
         mapId: "MAP_ID"
     });
 
@@ -58,22 +58,7 @@ async function initMap(start, destination) {
 
     try {
         console.log("json:",JSON.stringify({ start: start, destination: destination }))
-        // First, get the route from our BrightestRouteFinder backend
-        const response = await fetch('/api/brightest-route', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ start: start, destination: destination })
-        });
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Failed to fetch brightest route:', errorText);
-            throw new Error('Failed to fetch brightest route');    
-        }
-
-        const routeData = await response.json();
-        console.log('Route Data:', routeData);
+        const routeData = brightestRoute(start, destination);
 
         // Use the returned waypoints to create a route request
         const request = {
@@ -142,4 +127,28 @@ async function initMap(start, destination) {
         window.alert('Failed to calculate the brightest route');
     }
 }
+
+async function brightestRoute(start, destination) {
+    return new Promise(async (resolve, reject) => {
+    // First, get the route from our BrightestRouteFinder backend
+    const response = await fetch('/api/brightest-route', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ start: start, destination: destination })
+    });
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Failed to fetch brightest route:', errorText);
+        reject(error);
+        throw new Error('Failed to fetch brightest route');    
+    }
+
+    const routeData = await response.json();
+    console.log('Route Data:', routeData);
+    resolve(routeData);
+});
+}
+
 loadGoogleMapsAPI();
