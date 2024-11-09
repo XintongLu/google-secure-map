@@ -43,19 +43,19 @@ async function initMap() {
     const routeJsonString = await askAIForRoute(aiButton);
     routeJson = JSON.parse(routeJsonString);
 
-    const destinationPosition = await geoCoder(routeJson.end);
+    destinationPosition = await geoCoder(routeJson.end);
     console.log("Destination Position from AI:", destinationPosition);
+
+    if (destinationPosition) {
+      getRoute(destinationPosition);
+    } else {
+        console.error('Destination position not found');
+    }
   });
 
+  // If the user searches for a place
   destinationPosition = await search(map, SearchBox, AdvancedMarkerElement);
   console.log("Destination Position from Search:", destinationPosition);
-
-  if (destinationPosition) {
-    getRoute(destinationPosition);
-  } else {
-    console.error('Destination position not found');
-  }
-
 }
 
 async function search(map, SearchBox, AdvancedMarkerElement) {
@@ -116,6 +116,16 @@ async function search(map, SearchBox, AdvancedMarkerElement) {
     });
     map.fitBounds(bounds);
     if (destinationPosition) {
+        // Add a button to get directions
+    const dirButton = document.getElementById('directionButton');
+
+    if (dirButton) {
+      dirButton.addEventListener("click", function () {
+        getRoute(destinationPosition);
+      });
+    } else {
+      console.error('Directions button not found');
+    }
       resolve(destinationPosition);
     } else {
         reject('No valid destination position found');
@@ -129,19 +139,11 @@ async function getRoute(destinationPosition) {
   startPosition = { lat: 48.8737917, lng: 2.295027499999999 }
   console.log("Current Position:", startPosition);
 
-  // Add a button to get directions
-  const dirButton = document.getElementById('directionButton');
-
-  if (dirButton) {
-    dirButton.addEventListener("click", function () {
-      const destinationString = encodeURIComponent(JSON.stringify(destinationPosition));
-      const startPositionString = encodeURIComponent(JSON.stringify(startPosition));
-      const url = `route.html?start=${startPositionString}&destination=${destinationString}`;
-      window.location.href = url;
-    });
-  } else {
-    console.error('Directions button not found');
-  }
+  // Redirect to the route page
+  const destinationString = encodeURIComponent(JSON.stringify(destinationPosition));
+  const startPositionString = encodeURIComponent(JSON.stringify(startPosition));
+  const url = `Choose_Route.html?start=${startPositionString}&destination=${destinationString}`;
+  window.location.href = url;
 };
 
 async function askAIForRoute(aiButton) {
@@ -193,6 +195,7 @@ async function geoCoder(location) {
     });
   });
 };
+
 
 // Load the Google Maps API script
 loadGoogleMapsAPI();

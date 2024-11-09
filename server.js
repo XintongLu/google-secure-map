@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve navigate.html for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'navigate.html'));
+  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
 });
 
 // Serve static files from the public directory
@@ -35,6 +35,7 @@ app.post('/api/ask-gemini', async (req, res) => {
     const { prompt } = req.body;
     console.log('Getting route from Gemini with prompt:', prompt);
     const routeInfo = await callGemini.startChat(prompt);
+    console.log('Route info:', routeInfo);
     res.json(routeInfo);
   } catch (error) {
     res.status(500).json({ error: error.message });

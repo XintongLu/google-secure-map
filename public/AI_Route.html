@@ -6,54 +6,54 @@
     <title>AI Route </title>
     <link rel="stylesheet" href="css/AI_Route.css">
     <link rel="stylesheet" href="css/styleguide.css">
-    <script src="js/index.js" async defer></script>
+    <script src="js/1_AI_Route.js" async defer></script>
 </head>
 <body style="margin: 0; background: #ffffff">
     <div class="AI">
        
 
         <div class="search-wrapper">
-            <input id="searchInput" type="text" class="search-input" placeholder="Type here for your destination">
+            <input id="destination" type="text" class="search-input" placeholder="Type here for your destination">
             <button id="call" onclick="clearSearch()" class="yes-button">
-                <img src="IMG/Google- Women-icons.png" alt="Yes">
-            </button>
-            <button onclick="window.location.href='Landing.html'" class="back-button">
-                <img src="IMG/Google- Women-icons-09.png" alt="Back">
-            </button>
-        </div>
-        
+                <img src="IMG/Google-Women-icons.png" alt="Yes">
+        </button>
+        <button onclick="window.location.href='Landing.html'" class="back-button">
+                <img src="IMG/Google-Women-icons-09.png" alt="Back">
+        </button>
+    </div>
+
 
         <div class="function-buttons-wrapper">
-            <div class="function-buttons-container">
-              <div class="mode-buttons-container">
-                <button onclick="window.location.href='walking.html'" class="mode-button">
-                  <img class="mode-icon" src="img/Google- Women-icons-05.png" >
-                  <span class="mode-label">Walking</span>
-                </button>
-                <button onclick="window.location.href='cycling.html'" class="mode-button">
-                  <img class="mode-icon" src="img/Google- Women-icons-03.png" >
-                  <span class="mode-label">Cycling</span>
+    <div class="function-buttons-container">
+        <div class="mode-buttons-container">
+            <button onclick="window.location.href='walking.html'" class="mode-button">
+                <img class="mode-icon" src="img/Google-Women-icons-05.png" >
+                <span class="mode-label">Walking</span>
+            </button>
+            <button onclick="window.location.href='cycling.html'" class="mode-button">
+                <img class="mode-icon" src="img/Google-Women-icons-03.png" >
+                <span class="mode-label">Cycling</span>
                 </button>
               </div>
             </div>
             <div class="function-button-wrapper">
-              <button onclick="window.location.href='Choose_Route.html'" class="function-button">
-                <img src="img/Google- Women-icons-08.png" alt="Directions">
-              </button>
+              <button id="directionButton" onclick="window.location.href='Choose_Route.html'" class="function-button">
+                <img src="img/Google-Women-icons-08.png" alt="Directions">
+                </button>
               <span class="function-label">Route</span>
             </div>
-          </div>
+        </div>
 
         <div id="map" class="green-section"></div>
 
 
          <div class="search-container">
-            <input type="text" class="search-input" placeholder="Plan a safety route with lights and  shops">
-            <button onclick="window.location.href='Choose_Route.html'" class="yes-button">
-                <img src="IMG/Google- Women-icons-01.png" alt="Yes">
+            <input id="prompt" type="text" class="search-input" placeholder="Plan a safety route with lights and shops">
+            <button id="ai" class="yes-button">
+                <img src="IMG/Google-Women-icons-01.png" alt="Yes">
             </button>
             <button class="Assistant">
-                <img src="img/Google- Women-icons-02.png" alt="Assistant">
+                <img src="img/Google-Women-icons-02.png" alt="Assistant">
             </button>
         </div>
         
@@ -61,8 +61,6 @@
 
 
     </div>
-    <input id="prompt" type="text" class="search-input" placeholder="AI">
-    <button id="call"> Call </button>
 
     <script>
         function clearSearch() {
