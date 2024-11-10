@@ -26,6 +26,12 @@ async function initMap() {
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const { PlacesService,PlacesServiceStatus } = await google.maps.importLibrary("places");
 
+    const plazaDeMayo = { lat: -34.6083, lng: -58.3708 };
+    const abastoShopping = { lat: -34.6037, lng: -58.4108 };
+
+    const start = plazaDeMayo;
+    const end = abastoShopping;
+
     // Create a map centered in Buenos Aires
     const buenosAires = { lat: -34.6037, lng: -58.3716 };
     // Initialize the map
@@ -35,72 +41,101 @@ async function initMap() {
         mapId: "MAP_ID"
     });
 
-    // Create Places service
-    const service = new PlacesService(map);
-
-    // Search for police stations
-    const request = {
-        location: buenosAires,
-        radius: '5000', // Search within 5km
-        type: ['police'] // Search for police stations
-    };
-
-    service.nearbySearch(request, (results, status) => {
-        if (status === PlacesServiceStatus.OK) {
-            results.forEach(place => {
-                // Create marker for each police station
-                const marker = new google.maps.Marker({
-                    map: map,
-                    position: place.geometry.location,
-                    title: place.name
-                });
-
-                // Add info window for each marker
-                const infoWindow = new google.maps.InfoWindow({
-                    content: `
-                        <h3>${place.name}</h3>
-                        <p>Rating: ${place.rating ? place.rating : 'N/A'}</p>
-                        <p>Address: ${place.vicinity}</p>
-                    `
-                });
-
-                // Add click listener to show info window
-                marker.addListener('click', () => {
-                    infoWindow.open(map, marker);
-                });
-            });
-        }
-    });
-
-
-
-    let markers = [];
     // Sample places - you can modify or remove these
     const angelas = [
         { name: "Place 1", lat: -34.6037, lng: -58.3822 },
         { name: "Place 2", lat: -34.6137, lng: -58.3922 }
     ];
 
-        // Add initial markers if any
-        angelas.forEach(place => {
-        createMarker(place);
+    let policeStations = [];
+    let angelaPlaces = angelas; 
+
+    // Add initial markers if any
+    angelas.forEach(place => {
+        createMarker(place, new google.maps.LatLng(place.lat, place.lng),'/img/Ask-for-Angela.png');
     });
 
-    function createMarker(place) {
-        const marker = new google.maps.Marker({
-            position: { lat: place.lat, lng: place.lng },
-            map: map,
-            title: place.name,
-            animation: google.maps.Animation.DROP,
-            icon: {
-            url: '/img/Ask-for-Angela.png',
-             scaledSize: new google.maps.Size(40,40),  // Adjust the size as needed
-             zIndex: google.maps.Marker.MAX_ZINDEX + 1
-            },
-            
-        });
-        markers.push(marker);
-    }
+    // Fetch police station
+    fetchNearbyPlaces(PlacesService, start, 'police',(results, status) => {
+        if (status === PlacesServiceStatus.OK) {
+            results.forEach(place => {
+                // Create marker for each police station
+                createMarker(place, place.geometry.location,'/img/police.png');
+            });
+            policeStations = results;
+            calculateBestRoute(policeStations, angelaPlaces, start, end);
+        }
+    });
+}
+
+function createMarker(place, position, icon) {
+    let markers = [];
+    const marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: place.name,
+        animation: google.maps.Animation.DROP,
+        icon: {
+        url: icon,
+         scaledSize: new google.maps.Size(40,40),  // Adjust the size as needed
+         zIndex: google.maps.Marker.MAX_ZINDEX + 1
+        },
+        
+    });
+    // Add info window for each marker
+    const infoWindow = new google.maps.InfoWindow({
+        content: `
+            <h3>${place.name}</h3>
+            <p>Rating: ${place.rating ? place.rating : 'N/A'}</p>
+            <p>Address: ${place.vicinity}</p>
+        `
+    });
+    // Add click listener to show info window
+    marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+    });
+    markers.push(marker);
+}
+
+function fetchNearbyPlaces(PlacesService, location, type, callback){
+    // Create Places service
+    const service = new PlacesService(map);
+
+    // Search for police stations
+    const request = {
+        location: location,
+        radius: '10000', // Search within 10km
+        type: type
+    };
+    service.nearbySearch(request, callback);
+}
+
+function calculateBestRoute(policeStations,angelaPlaces, start, end) {
+    const waypoints = [...policeStations, ...angelaPlaces].map(place => ({
+        location: new google.maps.LatLng(place.lat, place.lng),
+        stopover: true
+    }));
+
+    const directionsService = new google.maps.DirectionsService();
+    const request = {
+        origin: start,
+        destination: end,
+        waypoints: waypoints,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.WALKING
+    };
+
+    directionsService.route(request, (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+            displayRoute(result);
+        }
+    });
+}
+
+function displayRoute(result) {
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+    directionsRenderer.setDirections(result);
 }
 
 // Load the Google Maps API script
