@@ -12,5 +12,5 @@ GEMINI_API_KEY=
 4. Open a browser and enter `http://localhost:8080/`
 
 
-#### Hope you can feel safe and free at night next time ! 
+#### Hope you can feel safe and free at night with Womap ! 
 
