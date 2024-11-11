@@ -83,8 +83,12 @@
     justify-content: center;
     gap: 5px;
   }
-  
+
   .mode-button:hover {
+    background-color: #6ef8ea;
+  }
+
+  .mode-button:focus {
     background-color: #6ef8ea;
   }
   

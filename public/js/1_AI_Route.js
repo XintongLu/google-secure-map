@@ -45,9 +45,13 @@ async function initMap() {
 
     destinationPosition = await geoCoder(routeJson.end);
     console.log("Destination Position from AI:", destinationPosition);
+    safetyMode = routeJson["safety mode"];
+    console.log("Safety Mode:", safetyMode);
+    travelMode = routeJson["traveling mode"];
+    console.log("Travel Mode:", travelMode);
 
     if (destinationPosition) {
-      getRoute(destinationPosition);
+      getRoute(destinationPosition,safetyMode,travelMode);
     } else {
         console.error('Destination position not found');
     }
@@ -134,15 +138,16 @@ async function search(map, SearchBox, AdvancedMarkerElement) {
 });
 }
 
-async function getRoute(destinationPosition) {
+async function getRoute(destinationPosition,safetyMode,travelMode,travelMode) {
   // Suppose the user's current location is Plaza de Mayo, Buenos Aires
-  startPosition = {lat: -34.6185589, lng: -58.3725069}
+  startPosition = {lat: -34.6114173, lng: -58.38602299999999}
   console.log("Current Position:", startPosition);
+
 
   // Redirect to the route page
   const destinationString = encodeURIComponent(JSON.stringify(destinationPosition));
   const startPositionString = encodeURIComponent(JSON.stringify(startPosition));
-  const url = `Choose_Route.html?start=${startPositionString}&destination=${destinationString}`;
+  const url = `Choose_Route.html?start=${startPositionString}&destination=${destinationString}&safetyMode=${safetyMode}&travelMode=${travelMode}`;
   window.location.href = url;
 };
 

@@ -22,19 +22,19 @@
         
         <div class="function-buttons-container">
             <div class="mode-buttons-container">
-                <button onclick="goToBrightestRoute()" class="mode-button">
+                <button id="brightestButton"  class="mode-button">
                     <img class="mode-icon" src="img/Google-Women-icons-07.png">
                     <span class="mode-label">Brightest</span>
-                </button>
-                
-                <button onclick="goToCCTVRoute()" class="mode-button">
-                    <img class="mode-icon" src="img/cctv.png">
-                    <span class="mode-label">CCTV</span>
                 </button>
                 
                 <button id="policeButton" class="mode-button">
                     <img class="mode-icon" src="img/Google-Women-icons-11.png">
                     <span class="mode-label">Police</span>
+                </button>
+     
+                <button onclick="goToCCTVRoute()" class="mode-button">
+                    <img class="mode-icon" src="img/cctv.png">
+                    <span class="mode-label">CCTV</span>
                 </button>
             </div>
         </div>
@@ -48,8 +48,8 @@
             </div>
     
             <div class="search-container">
-                <input type="text" class="search-input" placeholder="Plan a safety route with lights and shops">
-                <button onclick="goToWalking()" class="yes-button">
+                <input id="prompt" type="text" class="search-input" placeholder="Plan a safety route with lights and police stations">
+                <button id="ai" class="yes-button">
                     <img src="IMG/Google-Women-icons-01.png" alt="Yes">
                 </button>
                 <button class="Assistant">
