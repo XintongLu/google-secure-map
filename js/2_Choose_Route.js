@@ -186,6 +186,7 @@ async function initMap(start, destination, safetyMode, travelMode) {
     const aiButton = document.getElementById('ai');
 
     aiButton.addEventListener("click", async function () {
+        clearMarkers();
         const routeJsonString = await askAIForRoute(aiButton);
         routeJson = JSON.parse(routeJsonString);
 
