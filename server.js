@@ -5,10 +5,10 @@ const app = express();
 require('dotenv').config();
 const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
 
-const BrightestRouteFinder = require('./public/js/BrightestRouteFinder');
+const BrightestRouteFinder = require('./js/BrightestRouteFinder');
 const brightestRouteFinder = new BrightestRouteFinder(process.env.GOOGLE_MAP_API_KEY);
 
-const CallGemini = require('./public/js/CallGemini');
+const CallGemini = require('./js/CallGemini');
 const callGemini = new CallGemini(process.env.GEMINI_API_KEY);
 
 
@@ -20,11 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve navigate.html for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+  res.sendFile(path.join(__dirname, '', 'index.html'));
 });
 
 // Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '')));
 
 app.get('/api-key', (req, res) => {
   res.json({ apiKey: GOOGLE_MAP_API_KEY });
