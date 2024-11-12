@@ -30,7 +30,7 @@
     width: 360px;
     height: 820px;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 10px;
     background-color: #6ef8ea;
     border-radius: 20px;
   }
@@ -132,6 +132,10 @@
   background-color: #6ef8ea;
 }
 
+.mode-button:focus {
+  background-color: #6ef8ea;
+}
+
 .mode-content {
   display: flex;
   gap: 8px;
@@ -162,10 +166,12 @@
 }
 
 .function-buttons-container {
+  margin-top: 25px;
   justify-self: start;
 }
 
 .function-button-wrapper {
+  margin-top: 25px;
   justify-self: end;
 }
 

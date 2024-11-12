@@ -102,9 +102,16 @@ async function initMap(start, destination, safetyMode, travelMode) {
                     createMarker(place, place.geometry.location, '/img/police.png');
                 });
                 policeStations = results;
-                // calculateBestRoute(policeStations, angelaPlaces, start, destination,map);
 
-                const waypoints = [...policeStations, ...angelaPlaces]
+                // Filter Angela places that are nearby the route
+                const nearbyAngelaPlaces = angelaPlaces.filter(place => {
+                    const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                        new google.maps.LatLng(start.lat, start.lng),
+                        new google.maps.LatLng(place.lat, place.lng)
+                    );
+                    return distance <= 1000; // Adjust the distance threshold as needed (500m)
+                });
+                const waypoints = [...policeStations, ...nearbyAngelaPlaces]
                     .filter(place => place.lat !== undefined && place.lng !== undefined)
                     .map(place => ({
                         location: new google.maps.LatLng(place.lat, place.lng),
@@ -199,7 +206,7 @@ async function initMap(start, destination, safetyMode, travelMode) {
 
     async function firstCalculate(brightestButton, policeButton, start, destination, safetyMode, travelMode) {
         travelMode = getTravelMode(travelMode);
-        
+
         if (safetyMode === "brightest") {
             brightestButton.style.backgroundColor = "#6ef8ea";
             policeButton.style.backgroundColor = "#ffffff";
@@ -260,9 +267,16 @@ async function initMap(start, destination, safetyMode, travelMode) {
                         createMarker(place, place.geometry.location, '/img/police.png');
                     });
                     policeStations = results;
-                    // calculateBestRoute(policeStations, angelaPlaces, start, destination,map);
+                    // Filter Angela places that are nearby the route
+                    const nearbyAngelaPlaces = angelaPlaces.filter(place => {
+                        const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                            new google.maps.LatLng(start.lat, start.lng),
+                            new google.maps.LatLng(place.lat, place.lng)
+                        );
+                        return distance <= 1000; // Adjust the distance threshold as needed (500m)
+                    });
 
-                    const waypoints = [...policeStations, ...angelaPlaces]
+                    const waypoints = [...policeStations, ...nearbyAngelaPlaces]
                         .filter(place => place.lat !== undefined && place.lng !== undefined)
                         .map(place => ({
                             location: new google.maps.LatLng(place.lat, place.lng),

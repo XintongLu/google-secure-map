@@ -29,51 +29,110 @@ async function initMap() {
 
   // Initialize the map
   var map = new Map(document.getElementById('map'), {
-    center: {lat: -34.6037, lng: -58.3816}, // Coordinates for Buenos Aires
+    center: { lat: -34.6037, lng: -58.3816 }, // Coordinates for Buenos Aires
     zoom: 13,
     mapId: "MAP_ID",
   });
 
   let destinationPosition;
+  let travelMode;
+  let safetyMode;
 
   // Check if AI button is clicked
   const aiButton = document.getElementById('ai');
+
+  const walkingButton = document.getElementById('walking');
+  const cyclingButton = document.getElementById('cycling');
 
   aiButton.addEventListener("click", async function () {
     const routeJsonString = await askAIForRoute(aiButton);
     routeJson = JSON.parse(routeJsonString);
 
+    if (window.markers) {
+      window.markers.forEach(marker => marker.setMap(null));
+    }
+    window.markers = [];
+
     destinationPosition = await geoCoder(routeJson.end);
+    map.setZoom(15);
+    map.setCenter(destinationPosition);
+
+    // Create a new marker
+    const marker = new AdvancedMarkerElement({
+      map: map,
+      title: destinationPosition.name,
+      position: destinationPosition,
+      title: "Uluru",
+    });
+    // Store the marker
+    window.markers.push(marker);
+
     console.log("Destination Position from AI:", destinationPosition);
     safetyMode = routeJson["safety mode"];
     console.log("Safety Mode:", safetyMode);
     travelMode = routeJson["traveling mode"];
     console.log("Travel Mode:", travelMode);
 
-    if (destinationPosition) {
-      getRoute(destinationPosition,safetyMode,travelMode);
-    } else {
-        console.error('Destination position not found');
+    // destinationPosition = await search(map, routeJson.end, SearchBox, AdvancedMarkerElement);
+    // console.log("Destination Position from Search:", destinationPosition);
+
+    if (travelMode === "walking") {
+      walkingButton.style.backgroundColor = "#6ef8ea";
+    } else if (travelMode === "cycling") {
+      cyclingButton.style.backgroundColor = "#6ef8ea";
     }
+
+
+    // if (destinationPosition) {
+    //   getRoute(destinationPosition,safetyMode,travelMode);
+    // } else {
+    //     console.error('Destination position not found');
+    // }
   });
 
+  walkingButton.addEventListener("click", async function () {
+    walkingButton.style.backgroundColor = "#6ef8ea";
+    cyclingButton.style.backgroundColor = "#ffffff";
+    travelMode = "walking";
+    console.log("travel mode: " + travelMode);
+  });
+
+  cyclingButton.addEventListener("click", async function () {
+    cyclingButton.style.backgroundColor = "#6ef8ea";
+    walkingButton.style.backgroundColor = "#ffffff";
+    travelMode = "cycling";
+    console.log("travel mode: " + travelMode);
+  });
+
+  // Add a button to get directions
+  const dirButton = document.getElementById('directionButton');
+
+  if (dirButton) {
+    dirButton.addEventListener("click", function () {
+      console.log("travel mode: " + travelMode);
+      getRoute(destinationPosition,safetyMode,travelMode);
+    });
+  } else {
+    console.error('Directions button not found');
+  }
+
   // If the user searches for a place
-  destinationPosition = await search(map, SearchBox, AdvancedMarkerElement);
-  console.log("Destination Position from Search:", destinationPosition);
+  // destinationPosition = await search(map, SearchBox, AdvancedMarkerElement);
+  // console.log("Destination Position from Search:", destinationPosition);
 }
 
 async function search(map, SearchBox, AdvancedMarkerElement) {
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener('bounds_changed', function () {
-      destinationBox.setBounds(map.getBounds());
-    });
-    // Create the search box and link it to the UI element.
-    var destinationInput = document.getElementById('destination');
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener('bounds_changed', function () {
+    destinationBox.setBounds(map.getBounds());
+  });
+  // Create the search box and link it to the UI element.
+  var destinationInput = document.getElementById('destination');
     var destinationBox = new SearchBox(destinationInput);
 
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    return new Promise((resolve, reject) => {
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  return new Promise((resolve, reject) => {
     destinationBox.addListener('places_changed', function () {
 
       var places = destinationBox.getPlaces();
@@ -114,33 +173,33 @@ async function search(map, SearchBox, AdvancedMarkerElement) {
         if (destinationPlace.geometry.viewport) {
           // Only geocodes have viewport.
           bounds.union(destinationPlace.geometry.viewport);
-      } else {
+        } else {
           bounds.extend(destinationPlace.geometry.location);
+        }
+      });
+      map.fitBounds(bounds);
+      if (destinationPosition) {
+        // Add a button to get directions
+        const dirButton = document.getElementById('directionButton');
+
+        if (dirButton) {
+          dirButton.addEventListener("click", function () {
+            getRoute(destinationPosition);
+          });
+        } else {
+          console.error('Directions button not found');
+        }
+        resolve(destinationPosition);
+      } else {
+        reject('No valid destination position found');
       }
     });
-    map.fitBounds(bounds);
-    if (destinationPosition) {
-        // Add a button to get directions
-    const dirButton = document.getElementById('directionButton');
-
-    if (dirButton) {
-      dirButton.addEventListener("click", function () {
-        getRoute(destinationPosition);
-      });
-    } else {
-      console.error('Directions button not found');
-    }
-      resolve(destinationPosition);
-    } else {
-        reject('No valid destination position found');
-    }
   });
-});
 }
 
-async function getRoute(destinationPosition,safetyMode,travelMode,travelMode) {
+async function getRoute(destinationPosition, safetyMode, travelMode) {
   // Suppose the user's current location is Plaza de Mayo, Buenos Aires
-  startPosition = {lat: -34.6114173, lng: -58.38602299999999}
+  startPosition = { lat: -34.6114173, lng: -58.38602299999999 }
   console.log("Current Position:", startPosition);
 
 

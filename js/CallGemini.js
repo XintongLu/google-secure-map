@@ -88,7 +88,7 @@ class CallGemini {
     return resultText;
   }
 }
-//I want to walk from Casa de Galicia Restaurante to Av. Don Pedro de Mendoza 965 and it is morning of the day
+//I want to walk from Casa de Galicia Restaurante to Av. Don Pedro de Mendoza 443 and it is morning of the day
 //I want to walk from Casa de Galicia Restaurante to Av. Don Pedro de Mendoza 965 and it is almost midnight
 //Now i am at Ber Club Center, go to the same destination, i want to take bus, please choose the brightest route 
 module.exports = CallGemini;
